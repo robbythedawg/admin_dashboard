@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>Email Announcements</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <!-- Material Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
+
+    <link rel="stylesheet" href="../static/css/email.css">
+</head>
+<body>
+    <div class="container">
+        <div class="left">
+            <h2><span class="material-icons-outlined">edit</span>&nbsp Write Announcement</h2>
+            <textarea id="announcementText" maxlength="500" placeholder="Write your announcement here..."onkeydown="handleKeyDown(event)"></textarea>
+            <button onclick="addAnnouncement()">Submit</button>
+        </div>
+        <div class="right">
+            <h2><span class="material-icons-outlined">history_edu</span>&nbsp History Announcements
+                <button class="delete-all-btn" onclick="deleteAllAnnouncements()">Delete All</button>
+            </h2>
+            <div id="announcementHistory"></div>
+        </div>
+    </div>
+
+    <script>
+        function handleKeyDown(event) {
+    if (event.key === 'Enter') {
+        event.preventDefault(); // 阻止默认的回车换行行为
+        addAnnouncement();
+    }
+}
+
+function addAnnouncement() {
+    var text = document.getElementById('announcementText').value;
+    if (text.length === 0) return;
+
+    var announcementHistory = document.getElementById('announcementHistory');
+    var announcementDiv = document.createElement('div');
+    announcementDiv.className = 'announcement';
+    announcementDiv.setAttribute('data-fulltext', text); // 存储完整内容
+
+    if (text.length > 100) {
+        text = text.substring(0, 100) + '...';
+    }
+    announcementDiv.textContent = text;
+    //删除键
+    var deleteButton = document.createElement('button');
+    deleteButton.className = 'delete-btn';
+    deleteButton.innerHTML = '&times;';
+    deleteButton.onclick = function() {
+        deleteAnnouncement(announcementDiv);
+    };
+    announcementDiv.appendChild(deleteButton);
+    // 添加到历史记录
+    announcementHistory.appendChild(announcementDiv);
+
+    // 更新主页上的历史公告
+    updateMainPageAnnouncements(text);
+
+    // 清空输入框
+    document.getElementById('announcementText').value = '';
+}
+function deleteAnnouncement(element) {
+    var text = element.getAttribute('data-fulltext');
+    var announcements = JSON.parse(localStorage.getItem('announcements')) || [];
+    var index = announcements.indexOf(text);
+    if (index > -1) {
+        announcements.splice(index, 1);
+        localStorage.setItem('announcements', JSON.stringify(announcements));
+    }
+    element.remove();
+}
+function updateMainPageAnnouncements(text) {
+    var announcements = JSON.parse(localStorage.getItem('announcements')) || [];
+    announcements.push(text);
+    localStorage.setItem('announcements', JSON.stringify(announcements));
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    var announcements = JSON.parse(localStorage.getItem('announcements')) || [];
+    var announcementHistory = document.getElementById('announcementHistory');
+    
+    announcements.forEach(text => {
+        var announcementDiv = document.createElement('div');
+        announcementDiv.className = 'announcement';
+        if (text.length > 100) {
+            announcementDiv.textContent = text.substring(0, 100) + '...';
+        } else {
+            announcementDiv.textContent = text;
+        }
+        announcementDiv.setAttribute('data-fulltext', text);
+        announcementHistory.appendChild(announcementDiv);
+    });
+});
+function deleteAllAnnouncements() {
+    localStorage.removeItem('announcements');
+    const announcementHistory = document.getElementById('announcementHistory');
+    if (announcementHistory) {
+        announcementHistory.innerHTML = '';
+    }
+    const mainAnnouncementHistory = document.getElementById('announcements-container');
+    if (mainAnnouncementHistory) {
+        mainAnnouncementHistory.innerHTML = '';
+    }
+}
+
+
+    </script>
+</body>
+</html>

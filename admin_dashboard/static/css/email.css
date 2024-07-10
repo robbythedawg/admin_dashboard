@@ -1,0 +1,100 @@
+body {
+    font-family: 'Montserrat', sans-serif;
+    display: flex;
+    height: 100vh;
+    margin: 0;
+    padding: 20px;
+    background-color: #f0f2f5;
+}
+
+.container {
+    display: flex;
+    width: 100%;
+    gap: 20px;
+}
+
+.left, .right {
+    flex: 1;
+    padding: 20px;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+}
+
+.left textarea {
+    flex: 1;
+    resize: none;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 10px;
+    font-size: 16px;
+}
+
+.left button {
+    align-self: center;
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.right {
+    flex: 1;
+    padding: 20px;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto; /* 启用滚动功能 */
+    max-height: 100vh; /* 设置最大高度 */
+    position: relative; /* 允许内部的子元素使用绝对定位 */
+}
+
+.right .announcement {
+    background: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 10px;
+    word-break: break-word;
+    position: relative;
+    z-index: 1; /* 确保默认情况下的层次 */
+}
+
+.right .announcement:hover {
+    z-index: 1000; /* 当鼠标悬停时，将该项提升到最高层 */
+    background: #fff; /* 可选，改变背景颜色以便于区分 */
+    padding: 20px; /* 可选，增加填充以便于更好地显示内容 */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* 可选，增加阴影以便于更好地显示内容 */
+}
+.material-icons-outlined {
+    vertical-align: middle;
+    line-height: 1px;
+    
+  }
+.delete-btn{
+    background: none;
+    border: none;
+    color: red;
+    font-size: 1.2em;
+    cursor: pointer;
+    float: right;
+}
+.delete-all-btn {
+    align-self: center;
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    background-color: #ff0000;
+    color: white;
+    cursor: pointer;
+    margin-top: 10px;
+}
