@@ -9,7 +9,6 @@ function openSidebar() {
     sidebarOpen = true;
   }
 }
-
 function closeSidebar() {
   if (sidebarOpen) {
     sidebar.classList.remove('sidebar-responsive');
@@ -69,11 +68,11 @@ const areaChartOptions = {
   series: [
     {
       name: 'Active User',
-      data: [0, 0, 0, 0, 0, 0, 0],
+      data: [11,21, 14, 19, 22, 9, 24],
     },
     {
       name: 'Active Chat Group',
-      data: [0, 0, 0, 0, 0, 0, 0],
+      data: [2, 3, 1, 4, 3, 1, 5],
     },
   ],
   chart: {
@@ -156,6 +155,7 @@ function search() {
 
     results.style.display = matches.length > 0 ? 'block' : 'none';
 }
+
 function showUserManagementSubMenu() {
     document.getElementById('userManagementSubMenu').style.display = 'block';
 }
@@ -163,6 +163,7 @@ function showUserManagementSubMenu() {
 function hideUserManagementSubMenu() {
     document.getElementById('userManagementSubMenu').style.display = 'none';
 }
+
 document.addEventListener('DOMContentLoaded', () => {
     var announcements = JSON.parse(localStorage.getItem('announcements')) || [];
     var announcementHistory = document.getElementById('announcementHistory');
@@ -217,6 +218,7 @@ function search() {
 
     results.style.display = matches.length > 0 ? 'block' : 'none';
 }
+
 // 更新公告数量
 function updateAnnouncementCount() {
     var announcements = JSON.parse(localStorage.getItem('announcements')) || [];
@@ -303,9 +305,19 @@ function updateMainPageAnnouncements(text) {
 
 // DOM内容加载完成后执行
 document.addEventListener('DOMContentLoaded', () => {
+    // 检查登录状态并显示登录成功信息
+    if (localStorage.getItem('isLoggedIn') === 'true') {
+      document.getElementById('loginMessage').style.display = 'block';
+      localStorage.removeItem('isLoggedIn'); // 显示完之后清除状态
+    }
+
+    // 初始化公告历史记录
     var announcements = JSON.parse(localStorage.getItem('announcements')) || [];
     var announcementHistory = document.getElementById('announcementHistory');
     
+    // 清空现有公告，避免重复
+    announcementHistory.innerHTML = '';
+
     announcements.forEach(text => {
         var announcementDiv = document.createElement('div');
         announcementDiv.className = 'announcement';
@@ -315,12 +327,15 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             announcementDiv.textContent = text;
         }
-
-        
+        announcementHistory.appendChild(announcementDiv); // 添加到公告历史记录中
     });
+    if (localStorage.getItem('isLoggedIn') === 'true') {
+        document.getElementById('loginMessage').style.display = 'block';
+    }
+  });
+
 
     // 更新公告计数
     updateAnnouncementCount();
-});
 
 

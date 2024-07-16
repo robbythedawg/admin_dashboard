@@ -33,7 +33,7 @@ body {
 }
 
 .left button {
-    align-self: center;
+    align-self: left;
     padding: 10px 20px;
     font-size: 16px;
     border: none;

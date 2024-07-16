@@ -1,0 +1,5 @@
+next week timetable:
+[1]core function: user management(with the back end)
+    altering user info
+[2]come up with the idea to regulate the user's login and signup
+    flexibility or static?

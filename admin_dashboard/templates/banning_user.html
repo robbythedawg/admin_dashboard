@@ -11,18 +11,45 @@
     <div class="container">
         <h2>Banning User</h2>
         <div class="form-container">
-            <form>
+            <form id="banUserForm">
                 <div class="form-group">
-                    <label for="username">Username:</label>
-                    <input type="text" id="username" name="username" placeholder="Enter username to ban">
+                    <label for="user_id">User ID:</label>
+                    <input type="text" id="user_id" name="user_id" placeholder="Enter user ID to ban">
                 </div>
-                <div class="form-group">
-                    <label for="reason">Reason:</label>
-                    <textarea id="reason" name="reason" placeholder="Enter reason for banning"></textarea>
-                </div>
+                
                 <button type="submit">Ban User</button>
             </form>
+            <p id="message"></p>
         </div>
     </div>
 </body>
+<script>
+    document.getElementById('banUserForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+        const user_id = document.getElementById('user_id').value;
+        const message = document.getElementById('message');
+
+        fetch('/ban_user', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ user_id })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                message.style.color = 'green';
+                message.textContent = 'User successfully banned.';
+            } else {
+                message.style.color = 'red';
+                message.textContent = 'Failed to ban user: ' + data.message;
+            }
+        })
+        .catch(error => {
+            message.style.color = 'red';
+            message.textContent = 'An error occurred. Please try again later.';
+        });
+    });
+</script>
 </html>

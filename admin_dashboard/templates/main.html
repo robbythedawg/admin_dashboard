@@ -19,7 +19,7 @@
 
         <!-- Header -->
         <header class="header">
-            <div class="menu-icon" onclick="openSidebar()">
+            <div class="menu-icon" onclick="showLoginAlert()">
                 <span class="material-icons-outlined">menu</span>
             </div>
             <div class="header-left">
@@ -28,7 +28,7 @@
                 <div id="searchResults" class="search-results"></div>
             </div>
             <div class="header-right">
-                <a href="{{ url_for('email') }}" target="_blank">
+                <a href="#" onclick="showLoginAlert()">
                     <span class="material-icons-outlined">email</span>
                 </a>
                 <a href="{{ url_for('login') }}" target="_blank"><span class="material-icons-outlined">account_circle</span>
@@ -43,30 +43,24 @@
                 <div class="sidebar-brand">
                     <span class="material-icons-outlined">home</span> MENU
                 </div>
-                <span class="material-icons-outlined" onclick="closeSidebar()">close</span>
+                <span class="material-icons-outlined" onclick="showLoginAlert()">close</span>
             </div>
 
             <ul class="sidebar-list">
-                <li class="sidebar-list-item">
-                    <a href="{{ url_for('index') }}" target="_blank">
+                <li class="sidebar-list-item" onclick="showLoginAlert()">
+                    <a href="#">
                         <span class="material-icons-outlined">dashboard</span> Dashboard
-                        <span class="tooltip">Back to main page</span>
                     </a>
                 </li>
-                <li class="sidebar-list-item">
-                    <a href="{{ url_for('email') }}" target="_blank">
+                <li class="sidebar-list-item" onclick="showLoginAlert()">
+                    <a href="#">
                         <span class="material-icons-outlined">mail</span> Announcements
                     </a>
                 </li>
-                <li class="sidebar-list-item" onmouseover="showUserManagementSubMenu()" onmouseout="hideUserManagementSubMenu()">
+                <li class="sidebar-list-item" onclick="showLoginAlert()">
                     <a href="#">
                         <span class="material-icons-outlined">groups</span> User Management
                     </a>
-                    <ul class="submenu" id="userManagementSubMenu">
-                        <li><a href="{{ url_for('banning_user') }}" target="_blank">Banning User</a></li>
-                        <li><a href="{{ url_for('altering_password') }}" target="_blank">Altering Password</a></li>
-                        <li><a href="{{ url_for('altering_user_info') }}" target="_blank">Altering User Info</a></li>
-                    </ul>
                 </li>
             </ul>
         </aside>
@@ -75,13 +69,8 @@
         <!-- Main -->
         <main class="main-container">
             <div class="main-title">
-                <p class="font-weight-bold"><span class="material-icons-outlined">manage_accounts</span>&nbsp ADMIN DASHBOARD For BJUT-CHAT</p>
+                <p class="font-weight-bold"><span class="material-icons-outlined">manage_accounts</span>&nbsp Admin Dashboard For BJUT-CHAT</p>
             </div>
-            {% if logged_in %}
-            <div id="loginMessage" class="login-message">
-                {{ username }} , you have officially logged in
-            </div>
-            {% endif %}
             <div class="main-cards">
 
                 <div class="card">
@@ -118,11 +107,11 @@
 
             </div>
             <div class="container">
-            <div class="right">
-                <h2><span>&nbsp</span>&nbsp <a href="{{ url_for('email') }}" target="_blank"><span class="material-icons-outlined">assignment</span>Bulletin Board</a></h2>
-                <div id="announcementHistory"></div>
+                <div class="right">
+                    <h2><span>&nbsp</span>&nbsp <a href="#" onclick="showLoginAlert()"><span class="material-icons-outlined">assignment</span>Bulletin Board</a></h2>
+                    <div id="announcementHistory"></div>
+                </div>
             </div>
-        </div>
         
             <div class="charts">
 
@@ -136,8 +125,6 @@
                     <div id="bar-chart"></div>
                 </div>
 
-                
-
             </div>
         </main>
         <!-- End Main -->
@@ -149,5 +136,44 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/apexcharts/3.35.3/apexcharts.min.js"></script>
     <!-- Custom JS -->
     <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
+
+    <script>
+        function showLoginAlert() {
+            alert('You need to login first');
+            setTimeout(function() {
+                window.location.href = "{{ url_for('login') }}";
+            }, 1000);  // 1秒钟后跳转
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // 检查登录状态并显示登录成功信息
+            if (localStorage.getItem('isLoggedIn') === 'true') {
+                document.getElementById('loginMessage').style.display = 'block';
+                localStorage.removeItem('isLoggedIn'); // 显示完之后清除状态
+            }
+
+            // 初始化公告历史记录
+            var announcements = JSON.parse(localStorage.getItem('announcements')) || [];
+            var announcementHistory = document.getElementById('announcementHistory');
+            
+            // 清空现有公告，避免重复
+            announcementHistory.innerHTML = '';
+
+            announcements.forEach(text => {
+                var announcementDiv = document.createElement('div');
+                announcementDiv.className = 'announcement';
+                announcementDiv.setAttribute('data-fulltext', text);
+                if (text.length > 100) {
+                    announcementDiv.textContent = text.substring(0, 100) + '...';
+                } else {
+                    announcementDiv.textContent = text;
+                }
+                announcementHistory.appendChild(announcementDiv); // 添加到公告历史记录中
+            });
+
+            // 更新公告计数
+            updateAnnouncementCount();
+        });
+    </script>
 </body>
 </html>

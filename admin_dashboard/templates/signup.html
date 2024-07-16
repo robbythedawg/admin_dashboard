@@ -1,67 +1,432 @@
 <!DOCTYPE html>
 <html lang="en">
-  <html>
-    <head>
-      <title>Sign Up</title>
-      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      <meta charset="utf-8" />
-      <link rel="stylesheet" type="text/css" href="../static/css/signup.css" />
-      <link
-        rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
-      />
-      <link
-        href="https://fonts.googleapis.com/css?family=Titillium+Web:400,300,600"
-        rel="stylesheet"
-        type="text/css"
-      />
-      <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
-      <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.1/css/all.css" integrity="sha384-vp86vTRFVJgpjF9jiIGPEEqYqlDwgyBgEF109VFjmqGmIY/Y4HV4d3Gp2irVfcrp" crossorigin="anonymous">
-    </head>
+<head>
+  <title>Sign Up</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="utf-8" />
+  <link rel="stylesheet" type="text/css" href="../static/css/signup.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+  <link href="https://fonts.googleapis.com/css?family=Titillium+Web:400,300,600" rel="stylesheet" type="text/css" />
+  <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.1/css/all.css" integrity="sha384-vp86vTRFVJgpjF9jiIGPEEqYqlDwgyBgEF109VFjmqGmIY/Y4HV4d3Gp2irVfcrp" crossorigin="anonymous">
+</head>
+<body class="body">
+  <div class="login-page">
+    <div class="form">
+      <form id="signupForm" onsubmit="return handleSignup(event)">
+        <lottie-player src="https://assets4.lottiefiles.com/datafiles/XRVoUu3IX4sGWtiC3MPpFnJvZNq7lVWDCa8LSqgS/profile.json" background="transparent" speed="1" style="justify-content: center" loop autoplay></lottie-player>
+        <input type="text" name="id" placeholder="enter ID" required />
+        <input type="email" name="email" placeholder="email address" required />
+        <input type="text" name="username" placeholder="pick a username（first three letter）" required />
+        <br><br>
+        <button type="submit">SIGN UP</button>
+      </form>
+      <form class="login-form">
+        <button type="button" onclick="window.location.href='{{ url_for('login') }}'">Already have an account? Log in</button>
+      </form>
+    </div>
+  </div>
+  <script>
+    const validUsers = [
+  { username: 'abc', password: '12345678' },
+  { username: 'def', password: '23456789' },
+  { username: 'ghi', password: '34567890' },
+  { username: 'jkl', password: '45678901' },
+  { username: 'mno', password: '56789012' },
+  { username: 'pqr', password: '67890123' },
+  { username: 'stu', password: '78901234' },
+  { username: 'vwx', password: '89012345' },
+  { username: 'yz0', password: '90123456' },
+  { username: '123', password: '01234567' },
+  { username: '456', password: '23456789' },
+  { username: '789', password: '34567890' },
+  { username: '012', password: '45678901' },
+  { username: '345', password: '56789012' },
+  { username: '678', password: '67890123' },
+  { username: '901', password: '78901234' },
+  { username: '246', password: '89012345' },
+  { username: '135', password: '90123456' },
+  { username: '468', password: '01234567' },
+  { username: '579', password: '12345678' },
+  { username: 'ace', password: '23456789' },
+  { username: 'bdf', password: '34567890' },
+  { username: 'cgh', password: '45678901' },
+  { username: 'dhi', password: '56789012' },
+  { username: 'eij', password: '67890123' },
+  { username: 'fjl', password: '78901234' },
+  { username: 'gkm', password: '89012345' },
+  { username: 'hln', password: '90123456' },
+  { username: 'imo', password: '01234567' },
+  { username: 'jnp', password: '12345678' },
+  { username: 'abc', password: '12345678' },
+  { username: 'def', password: '23456789' },
+  { username: 'ghi', password: '34567890' },
+  { username: 'jkl', password: '45678901' },
+  { username: 'mno', password: '56789012' },
+  { username: 'pqr', password: '67890123' },
+  { username: 'stu', password: '78901234' },
+  { username: 'vwx', password: '89012345' },
+  { username: 'yz0', password: '90123456' },
+  { username: 'bca', password: '01234567' },
+  { username: 'edf', password: '76543210' },
+  { username: 'fgh', password: '87654321' },
+  { username: 'ijk', password: '98765432' },
+  { username: 'lmn', password: '09876543' },
+  { username: 'opq', password: '10987654' },
+  { username: 'rst', password: '21098765' },
+  { username: 'uvw', password: '32109876' },
+  { username: 'wxy', password: '43210987' },
+  { username: 'zab', password: '54321098' },
+  { username: 'cde', password: '65432109' },
+  { username: 'efg', password: '76543210' },
+  { username: 'ghi', password: '87654321' },
+  { username: 'hij', password: '98765432' },
+  { username: 'ijk', password: '09876543' },
+  { username: 'klm', password: '10987654' },
+  { username: 'mno', password: '21098765' },
+  { username: 'nop', password: '32109876' },
+  { username: 'opq', password: '43210987' },
+  { username: 'pqr', password: '54321098' },
+  { username: 'qrs', password: '65432109' },
+  { username: 'rst', password: '76543210' },
+  { username: 'stu', password: '87654321' },
+  { username: 'tuv', password: '98765432' },
+  { username: 'uvw', password: '09876543' },
+  { username: 'vwx', password: '10987654' },
+  { username: 'wxy', password: '21098765' },
+  { username: 'xyz', password: '32109876' },
+  { username: 'yza', password: '43210987' },
+  { username: 'zab', password: '54321098' },
+  { username: 'bcd', password: '65432109' },
+  { username: 'cde', password: '76543210' },
+  { username: 'def', password: '87654321' },
+  { username: 'efg', password: '98765432' },
+  { username: 'fgh', password: '09876543' },
+  { username: 'ghi', password: '10987654' },
+  { username: 'hij', password: '21098765' },
+  { username: 'ijk', password: '32109876' },
+  { username: 'jkl', password: '43210987' },
+  { username: 'klm', password: '54321098' },
+  { username: 'lmn', password: '65432109' },
+  { username: 'mno', password: '76543210' },
+  { username: 'nop', password: '87654321' },
+  { username: 'opq', password: '98765432' },
+  { username: 'pqr', password: '09876543' },
+  { username: 'qrs', password: '10987654' },
+  { username: 'rst', password: '21098765' },
+  { username: 'stu', password: '32109876' },
+  { username: 'tuv', password: '43210987' },
+  { username: 'uvw', password: '54321098' },
+  { username: 'vwx', password: '65432109' },
+  { username: 'wxy', password: '76543210' },
+  { username: 'xyz', password: '87654321' },
+  { username: 'yza', password: '98765432' },
+  { username: 'zab', password: '09876543' },
+  { username: 'bcd', password: '10987654' },
+  { username: 'cde', password: '21098765' },
+  { username: 'def', password: '32109876' },
+  { username: 'efg', password: '43210987' },
+  { username: 'fgh', password: '54321098' },
+  { username: 'ghi', password: '65432109' },
+  { username: 'hij', password: '76543210' },
+  { username: 'ijk', password: '87654321' },
+  { username: 'jkl', password: '98765432' },
+  { username: 'klm', password: '09876543' },
+  { username: 'lmn', password: '10987654' },
+  { username: 'mno', password: '21098765' },
+  { username: 'nop', password: '32109876' },
+  { username: 'opq', password: '43210987' },
+  { username: 'pqr', password: '54321098' },
+  { username: 'qrs', password: '65432109' },
+  { username: 'rst', password: '76543210' },
+  { username: 'stu', password: '87654321' },
+  { username: 'tuv', password: '98765432' },
+  { username: 'uvw', password: '09876543' },
+  { username: 'vwx', password: '10987654' },
+  { username: 'wxy', password: '21098765' },
+  { username: 'xyz', password: '32109876' },
+  { username: 'yza', password: '43210987' },
+  { username: 'zab', password: '54321098' },
+  { username: 'bcd', password: '65432109' },
+  { username: 'cde', password: '76543210' },
+  { username: 'def', password: '87654321' },
+  { username: 'efg', password: '98765432' },
+  { username: 'fgh', password: '09876543' },
+  { username: 'ghi', password: '10987654' },
+  { username: 'hij', password: '21098765' },
+  { username: 'ijk', password: '32109876' },
+  { username: 'jkl', password: '43210987' },
+  { username: 'klm', password: '54321098' },
+  { username: 'lmn', password: '65432109' },
+  { username: 'mno', password: '76543210' },
+  { username: 'nop', password: '87654321' },
+  { username: 'opq', password: '98765432' },
+  { username: 'pqr', password: '09876543' },
+  { username: 'qrs', password: '10987654' },
+  { username: 'rst', password: '21098765' },
+  { username: 'stu', password: '32109876' },
+  { username: 'tuv', password: '43210987' },
+  { username: 'uvw', password: '54321098' },
+  { username: 'vwx', password: '65432109' },
+  { username: 'wxy', password: '76543210' },
+  { username: 'xyz', password: '87654321' },
+  { username: 'yza', password: '98765432' },
+  { username: 'zab', password: '09876543' },
+  { username: 'bcd', password: '10987654' },
+  { username: 'cde', password: '21098765' },
+  { username: 'def', password: '32109876' },
+  { username: 'efg', password: '43210987' },
+  { username: 'fgh', password: '54321098' },
+  { username: 'ghi', password: '65432109' },
+  { username: 'hij', password: '76543210' },
+  { username: 'ijk', password: '87654321' },
+  { username: 'jkl', password: '98765432' },
+  { username: 'klm', password: '09876543' },
+  { username: 'lmn', password: '10987654' },
+  { username: 'mno', password: '21098765' },
+  { username: 'nop', password: '32109876' },
+  { username: 'opq', password: '43210987' },
+  { username: 'pqr', password: '54321098' },
+  { username: 'qrs', password: '65432109' },
+  { username: 'rst', password: '76543210' },
+  { username: 'stu', password: '87654321' },
+  { username: 'tuv', password: '98765432' },
+  { username: 'uvw', password: '09876543' },
+  { username: 'vwx', password: '10987654' },
+  { username: 'wxy', password: '21098765' },
+  { username: 'xyz', password: '32109876' },
+  { username: 'yza', password: '43210987' },
+  { username: 'zab', password: '54321098' },
+  { username: 'bcd', password: '65432109' },
+  { username: 'cde', password: '76543210' },
+  { username: 'def', password: '87654321' },
+  { username: 'efg', password: '98765432' },
+  { username: 'fgh', password: '09876543' },
+  { username: 'ghi', password: '10987654' },
+  { username: 'hij', password: '21098765' },
+  { username: 'ijk', password: '32109876' },
+  { username: 'jkl', password: '43210987' },
+  { username: 'klm', password: '54321098' },
+  { username: 'lmn', password: '65432109' },
+  { username: 'mno', password: '76543210' },
+  { username: 'nop', password: '87654321' },
+  { username: 'opq', password: '98765432' },
+  { username: 'pqr', password: '09876543' },
+  { username: 'qrs', password: '10987654' },
+  { username: 'rst', password: '21098765' },
+  { username: 'stu', password: '32109876' },
+  { username: 'tuv', password: '43210987' },
+  { username: 'uvw', password: '54321098' },
+  { username: 'vwx', password: '65432109' },
+  { username: 'wxy', password: '76543210' },
+  { username: 'xyz', password: '87654321' },
+  { username: 'yza', password: '98765432' },
+  { username: 'zab', password: '09876543' },
+  { username: 'bcd', password: '10987654' },
+  { username: 'cde', password: '21098765' },
+  { username: 'def', password: '32109876' },
+  { username: 'efg', password: '43210987' },
+  { username: 'fgh', password: '54321098' },
+  { username: 'ghi', password: '65432109' },
+  { username: 'hij', password: '76543210' },
+  { username: 'ijk', password: '87654321' },
+  { username: 'jkl', password: '98765432' },
+  { username: 'klm', password: '09876543' },
+  { username: 'lmn', password: '10987654' },
+  { username: 'mno', password: '21098765' },
+  { username: 'nop', password: '32109876' },
+  { username: 'opq', password: '43210987' },
+  { username: 'pqr', password: '54321098' },
+  { username: 'qrs', password: '65432109' },
+  { username: 'rst', password: '76543210' },
+  { username: 'stu', password: '87654321' },
+  { username: 'tuv', password: '98765432' },
+  { username: 'uvw', password: '09876543' },
+  { username: 'vwx', password: '10987654' },
+  { username: 'wxy', password: '21098765' },
+  { username: 'xyz', password: '32109876' },
+  { username: 'yza', password: '43210987' },
+  { username: 'zab', password: '54321098' },
+  { username: 'bcd', password: '65432109' },
+  { username: 'cde', password: '76543210' },
+  { username: 'def', password: '87654321' },
+  { username: 'efg', password: '98765432' },
+  { username: 'fgh', password: '09876543' },
+  { username: 'ghi', password: '10987654' },
+  { username: 'hij', password: '21098765' },
+  { username: 'ijk', password: '32109876' },
+  { username: 'jkl', password: '43210987' },
+  { username: 'klm', password: '54321098' },
+  { username: 'lmn', password: '65432109' },
+  { username: 'mno', password: '76543210' },
+  { username: 'nop', password: '87654321' },
+  { username: 'opq', password: '98765432' },
+  { username: 'pqr', password: '09876543' },
+  { username: 'qrs', password: '10987654' },
+  { username: 'rst', password: '21098765' },
+  { username: 'stu', password: '32109876' },
+  { username: 'tuv', password: '43210987' },
+  { username: 'uvw', password: '54321098' },
+  { username: 'vwx', password: '65432109' },
+  { username: 'wxy', password: '76543210' },
+  { username: 'xyz', password: '87654321' },
+  { username: 'yza', password: '98765432' },
+  { username: 'zab', password: '09876543' },
+  { username: 'bcd', password: '10987654' },
+  { username: 'cde', password: '21098765' },
+  { username: 'def', password: '32109876' },
+  { username: 'efg', password: '43210987' },
+  { username: 'fgh', password: '54321098' },
+  { username: 'ghi', password: '65432109' },
+  { username: 'hij', password: '76543210' },
+  { username: 'ijk', password: '87654321' },
+  { username: 'jkl', password: '98765432' },
+  { username: 'klm', password: '09876543' },
+  { username: 'lmn', password: '10987654' },
+  { username: 'mno', password: '21098765' },
+  { username: 'nop', password: '32109876' },
+  { username: 'opq', password: '43210987' },
+  { username: 'pqr', password: '54321098' },
+  { username: 'qrs', password: '65432109' },
+  { username: 'rst', password: '76543210' },
+  { username: 'stu', password: '87654321' },
+  { username: 'tuv', password: '98765432' },
+  { username: 'uvw', password: '09876543' },
+  { username: 'vwx', password: '10987654' },
+  { username: 'wxy', password: '21098765' },
+  { username: 'xyz', password: '32109876' },
+  { username: 'yza', password: '43210987' },
+  { username: 'zab', password: '54321098' },
+  { username: 'bcd', password: '65432109' },
+  { username: 'cde', password: '76543210' },
+  { username: 'def', password: '87654321' },
+  { username: 'efg', password: '98765432' },
+  { username: 'fgh', password: '09876543' },
+  { username: 'ghi', password: '10987654' },
+  { username: 'hij', password: '21098765' },
+  { username: 'ijk', password: '32109876' },
+  { username: 'jkl', password: '43210987' },
+  { username: 'klm', password: '54321098' },
+  { username: 'lmn', password: '65432109' },
+  { username: 'mno', password: '76543210' },
+  { username: 'nop', password: '87654321' },
+  { username: 'opq', password: '98765432' },
+  { username: 'pqr', password: '09876543' },
+  { username: 'qrs', password: '10987654' },
+  { username: 'rst', password: '21098765' },
+  { username: 'stu', password: '32109876' },
+  { username: 'tuv', password: '43210987' },
+  { username: 'uvw', password: '54321098' },
+  { username: 'vwx', password: '65432109' },
+  { username: 'wxy', password: '76543210' },
+  { username: 'xyz', password: '87654321' },
+  { username: 'yza', password: '98765432' },
+  { username: 'zab', password: '09876543' },
+  { username: 'bcd', password: '10987654' },
+  { username: 'cde', password: '21098765' },
+  { username: 'def', password: '32109876' },
+  { username: 'efg', password: '43210987' },
+  { username: 'fgh', password: '54321098' },
+  { username: 'ghi', password: '65432109' },
+  { username: 'hij', password: '76543210' },
+  { username: 'ijk', password: '87654321' },
+  { username: 'jkl', password: '98765432' },
+  { username: 'klm', password: '09876543' },
+  { username: 'lmn', password: '10987654' },
+  { username: 'mno', password: '21098765' },
+  { username: 'nop', password: '32109876' },
+  { username: 'opq', password: '43210987' },
+  { username: 'pqr', password: '54321098' },
+  { username: 'qrs', password: '65432109' },
+  { username: 'rst', password: '76543210' },
+  { username: 'stu', password: '87654321' },
+  { username: 'tuv', password: '98765432' },
+  { username: 'uvw', password: '09876543' },
+  { username: 'vwx', password: '10987654' },
+  { username: 'wxy', password: '21098765' },
+  { username: 'xyz', password: '32109876' },
+  { username: 'yza', password: '43210987' },
+  { username: 'zab', password: '54321098' },
+  { username: 'bcd', password: '65432109' },
+  { username: 'cde', password: '76543210' },
+  { username: 'def', password: '87654321' },
+  { username: 'efg', password: '98765432' },
+  { username: 'fgh', password: '09876543' },
+  { username: 'ghi', password: '10987654' },
+  { username: 'hij', password: '21098765' },
+  { username: 'ijk', password: '32109876' },
+  { username: 'jkl', password: '43210987' },
+  { username: 'klm', password: '54321098' },
+  { username: 'lmn', password: '65432109' },
+  { username: 'mno', password: '76543210' },
+  { username: 'nop', password: '87654321' },
+  { username: 'opq', password: '98765432' },
+  { username: 'pqr', password: '09876543' },
+  { username: 'qrs', password: '10987654' },
+  { username: 'rst', password: '21098765' },
+  { username: 'stu', password: '32109876' },
+  { username: 'tuv', password: '43210987' },
+  { username: 'uvw', password: '54321098' },
+  { username: 'vwx', password: '65432109' },
+  { username: 'wxy', password: '76543210' },
+  { username: 'xyz', password: '87654321' },
+  { username: 'yza', password: '98765432' },
+  { username: 'zab', password: '09876543' },
+  { username: 'bcd', password: '10987654' },
+  { username: 'cde', password: '21098765' },
+  { username: 'def', password: '32109876' },
+  { username: 'efg', password: '43210987' },
+  { username: 'fgh', password: '54321098' },
+  { username: 'ghi', password: '65432109' },
+  { username: 'hij', password: '76543210' },
+  { username: 'ijk', password: '87654321' },
+  { username: 'jkl', password: '98765432' },
+  { username: 'klm', password: '09876543' },
+  { username: 'lmn', password: '10987654' },
+  { username: 'mno', password: '21098765' },
+  { username: 'nop', password: '32109876' },
+  { username: 'opq', password: '43210987' },
+  { username: 'pqr', password: '54321098' },
+  { username: 'qrs', password: '65432109' },
+  { username: 'rst', password: '76543210' },
+  { username: 'stu', password: '87654321' },
+  { username: 'tuv', password: '98765432' },
+  { username: 'uvw', password: '09876543' },
+  { username: 'vwx', password: '10987654' },
+  { username: 'wxy', password: '21098765' },
+  { username: 'xyz', password: '32109876' },
+  { username: 'yza', password: '43210987' },
+  { username: 'zab', password: '54321098' },
+  { username: 'bcd', password: '65432109' },
+  { username: 'lty', password: '12345678' },
+  { username: 'lyc', password: '87654321' },
+  { username: 'lcb', password: '00000000' },
+  { username: 'yyb', password: '11111111' },
+  { username: 'flh', password: '21933122' },
+  { username: 'gjy', password: '92138121' },
 
-    <body class="body">
-     
 
-      <div class="login-page">
-        <div class="form">
-          <form>
-            <lottie-player
-              src="https://assets4.lottiefiles.com/datafiles/XRVoUu3IX4sGWtiC3MPpFnJvZNq7lVWDCa8LSqgS/profile.json"
-              background="transparent"
-              speed="1"
-              style="justify-content: center"
-              loop
-              autoplay
-            ></lottie-player>
-            <input type="text" placeholder="enter ID" />
-            <input type="text" placeholder="email address" />
-            <input type="text" placeholder="pick a username" />
-            <input type="password" id="password" placeholder="set a password" />
-            <i class="fas fa-eye" onclick="show()"></i>
-            <br>
-            <br>
-          </form>
+  
+    ];
 
-          <form class="login-form">
-            <button type="button" onclick="window.location.href='login.html'">
-              SIGN UP
-            </button>
-          </form>
-        </div>
-      </div>
-    </body>
-    <script>
-      function show() {
-        var password = document.getElementById("password");
-        var icon = document.querySelector(".fas");
+    function handleSignup(event) {
+      event.preventDefault();
 
-        // ========== Checking type of password ===========
-        if (password.type === "password") {
-          password.type = "text";
-        } else {
-          password.type = "password";
-        }
+      const form = document.getElementById('signupForm');
+      const formData = new FormData(form);
+      const data = {};
+      formData.forEach((value, key) => {
+        data[key] = value;
+      });
+
+      const user = validUsers.find(user => user.username === data.username);
+
+      if (user) {
+        alert(`Registration successful! Your password is: ${user.password}`);
+      } else {
+        alert('Username not found.');
       }
-    </script>
-  </html>
+    }
+  </script>
+</body>
 </html>
